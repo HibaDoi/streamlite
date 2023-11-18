@@ -19,6 +19,7 @@ if st.checkbox('show raw data'):
 # Ici on a trouver une erreur dans laquel on a transformer depuis pandas to geopandas avant utiliser 
 geometry = gpd.points_from_xy(data['longitude'], data['latitude'])
 gdf = gpd.GeoDataFrame(data, geometry=geometry)
+
 #Ici on essai de faire les symbole proportionnel 
 #initial view  position  , zoom et inclinaison ça sera benifique en 3D 
 """st.pydeck_chart(pdk.Deck(
@@ -50,8 +51,8 @@ gdf = gpd.GeoDataFrame(data, geometry=geometry)
         
     ],
 ))"""
-
-view = pdk.View(type="_GlobeView", controller=True, width=1000, height=700)
+# here we do 3d representation of data with the same color
+"""view = pdk.View(type="_GlobeView", controller=True, width=1000, height=700)
 st.pydeck_chart(pdk.Deck(
     views=[view],
     map_style=None,
@@ -76,6 +77,33 @@ st.pydeck_chart(pdk.Deck(
         radius=2000,
         get_fill_color='[255, 165, 0]',
         ),
+        
+    ],
+))"""
+day = st.slider('witch day', 0, 6, 2)
+
+st.pydeck_chart(pdk.Deck(
+    map_style=None,
+    initial_view_state=pdk.ViewState(
+        latitude=32,
+        longitude=-5,
+        zoom=11,
+        pitch=45,
+        bearing=0,
+        
+
+    ),
+    #Ici on peut ajouter une infinitée de couche et ler symbology 
+    layers=[
+       pdk.Layer(
+    "GridLayer",
+    gdf,
+    pickable=True,
+    extruded=True,
+    cell_size=20000,
+    elevation_scale=5,
+    get_position=["longitude", "latitude"],
+)
         
     ],
 ))
