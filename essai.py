@@ -31,18 +31,6 @@ option = st.selectbox(
     'How would you like to choose?',
     ('temperature', 'humidite', 'precipitation'))
 
-color1 = []
-
-def color(value):
-    if value < 15:
-        return [246, 45, 45]  # Red
-    elif 15 <= value < 35:
-        return [162, 38, 75]  # Purple
-    else:
-        return [16, 52, 166]  # Blue
-
-
-
 d=""
 def att(value):
     if value== 'temperature':
@@ -52,6 +40,35 @@ def att(value):
     if value== 'precipitation':
         d="preci_"
     return d 
+
+color1 = []
+
+def color(value):
+    if att(option)== "temp_j" :
+        if value < 15:
+            return [246, 45, 45]  # Red
+        elif 15 <= value < 35:
+            return [162, 38, 75]  # Purple
+        else:
+            return [16, 52, 166]  # Blue
+    if att(option)== "humd_" :
+        if value < 30:
+            return [135, 97, 115]  # Red
+        elif 15 <= value < 60:
+            return [176, 147, 101]  # Purple
+        else:
+            return [20, 120, 51]  # Blue
+    if att(option)== "preci_" :
+        if value < 7:
+            return [0, 212, 14]  # Red
+        elif 15 <= value < 14:
+            return [0, 113, 133]  # Purple
+        else:
+            return [0, 49, 147]  # Blue
+
+
+
+
 
 gdf['fill_color'] = gdf[str(att(option))+str(day)].apply(color)
 
