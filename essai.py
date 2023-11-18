@@ -22,35 +22,67 @@ gdf = gpd.GeoDataFrame(data, geometry=geometry)
 
 #Ici on essai de faire les symbole proportionnel 
 #initial view  position  , zoom et inclinaison ça sera benifique en 3D 
-"""st.pydeck_chart(pdk.Deck(
+
+
+# Assuming 'temp_j3' is a column in your GeoDataFrame
+
+day = st.slider('witch day', 0, 6, 2)
+option = st.selectbox(
+    'How would you like to choose?',
+    ('temperature', 'humidite', 'precipitation'))
+
+color1 = []
+
+def color(value):
+    if value < 15:
+        return [246, 45, 45]  # Red
+    elif 15 <= value < 35:
+        return [162, 38, 75]  # Purple
+    else:
+        return [16, 52, 166]  # Blue
+
+
+
+d=""
+def att(value):
+    if value== 'temperature':
+        d="temp_j"
+    if value== 'humidite':
+        d="humd_"
+    if value== 'precipitation':
+        d="preci_"
+    return d 
+
+gdf['fill_color'] = gdf[str(att(option))+str(day)].apply(color)
+
+
+
+st.pydeck_chart(pdk.Deck(
     map_style=None,
     initial_view_state=pdk.ViewState(
         latitude=32,
         longitude=-5,
-        zoom=11,
+        zoom=8,
         pitch=0,
     ),
-    #Ici on peut ajouter une infinitée de couche et ler symbology 
     layers=[
         pdk.Layer(
-        'ScatterplotLayer',
-        data=gdf,
-        pickable=True,
-        opacity=0.8,
-        stroked=True,
-        filled=True,
-        radius_scale=6,
-        radius_min_pixels=1,
-        radius_max_pixels=100,
-        line_width_min_pixels=1,
-        get_position='[longitude, latitude]',
-        get_radius="temp_j3",
-        get_fill_color=[255, 140, 0],
-        get_line_color=[0, 0, 0],
+            'ScatterplotLayer',
+            data=gdf,
+            pickable=True,
+            opacity=0.8,
+            stroked=True,
+            filled=True,
+            radius_scale=10,
+            radius_min_pixels=1,
+            radius_max_pixels=100,
+            line_width_min_pixels=1,
+            get_position='[longitude, latitude]',
+            get_radius=200,
+            get_fill_color='fill_color',  # Use the new 'fill_color' column
         ),
-        
     ],
-))"""
+))
 # here we do 3d representation of data with the same color
 """view = pdk.View(type="_GlobeView", controller=True, width=1000, height=700)
 st.pydeck_chart(pdk.Deck(
@@ -80,8 +112,9 @@ st.pydeck_chart(pdk.Deck(
         
     ],
 ))"""
-day = st.slider('witch day', 0, 6, 2)
 
+# i discovred that grid just count the number if point in one place in is nit very useful in our case 
+"""
 st.pydeck_chart(pdk.Deck(
     map_style=None,
     initial_view_state=pdk.ViewState(
@@ -106,4 +139,4 @@ st.pydeck_chart(pdk.Deck(
 )
         
     ],
-))
+))"""
