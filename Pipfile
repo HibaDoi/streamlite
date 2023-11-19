@@ -7,6 +7,12 @@ name = "pypi"
 streamlit = "*"
 pydeck = "*"
 geopandas = "*"
+streamlit-modal = "*"
+folium = "*"
+geemap = "*"
+localtileserver = {git = "https://github.com/banesullivan/localtileserver.git"}
+streamlit-folium = "*"
+rasterio = "*"
 
 [dev-packages]
 

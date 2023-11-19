@@ -3,6 +3,19 @@ import pandas as pd
 import numpy as np
 import pydeck as pdk
 import geopandas as gpd
+import folium
+import geemap.foliumap as geemap
+from localtileserver.widgets import get_folium_tile_layer
+import streamlit as st
+import folium
+from streamlit_folium import folium_static
+from PIL import Image
+import numpy as np
+from folium import plugins
+import rasterio
+from rasterio.warp import transform_bounds
+
+
 #on ajoute notre fichier geoparquet
 datafile ='waaaa.geoparquet'
 #on lit notre fichier geoparquet
@@ -25,6 +38,9 @@ gdf = gpd.GeoDataFrame(data, geometry=geometry)
 
 
 # Assuming 'temp_j3' is a column in your GeoDataFrame
+
+
+
 
 day = st.slider('witch day', 0, 6, 2)
 option = st.selectbox(
@@ -72,6 +88,8 @@ def color(value):
 
 gdf['fill_color'] = gdf[str(att(option))+str(day)].apply(color)
 
+# Create a new column 'label' containing the labels for each point
+
 
 
 st.pydeck_chart(pdk.Deck(
@@ -97,9 +115,84 @@ st.pydeck_chart(pdk.Deck(
             get_position='[longitude, latitude]',
             get_radius=200,
             get_fill_color='fill_color',  # Use the new 'fill_color' column
+            auto_highlight=True,
+            
+           
+
         ),
     ],
 ))
+#chart
+###################
+# Create an empty DataFrame
+ddf = pd.DataFrame()
+
+# Add columns to the DataFrame
+ddf['jours'] = [0,1 ,2,3,4,5,6] # You can replace None with any default value you want
+
+# Add more columns as needed
+ddf['temp'+str(0)] = None
+for i in range(7):
+    ddf['temp'+str(0)][i] = gdf.at[0, 'temp_j'+str(i)]
+# Print the empty DataFrame
+print(ddf)
+chart_data = pd.DataFrame(ddf, columns=["temp0"])
+
+st.line_chart(chart_data)
+##################
+
+
+# Load the TIFF files
+tif_path1 = 'temp0.tif'
+tif_path2 = 'temp1.tif'
+
+tif_img1 = Image.open(tif_path1)
+tif_img2 = Image.open(tif_path2)
+
+# Convert TIFF to numpy array
+tif_array1 = np.array(tif_img1)
+tif_array2 = np.array(tif_img2)
+
+# Convert numpy array to grayscale image
+tif_gray1 = Image.fromarray(tif_array1)
+tif_gray2 = Image.fromarray(tif_array2)
+
+# Save the grayscale images as PNG (or any other format that Folium supports)
+png_path1 = 'file1.png'
+png_path2 = 'file2.png'
+tif_gray1.save(png_path1)
+tif_gray2.save(png_path2)
+
+# Create a dual map
+m = plugins.DualMap(location=[33.976608456383175, -6.866780573957727], zoom_start=16)
+
+# Add the PNG image overlays to the map
+folium.raster_layers.ImageOverlay(
+    image=png_path1,
+    bounds=[[33.976608456383175, -6.866780573957727], [34.976608456383175, -5.866780573957727]],
+    name='Image 1',
+    show=True,
+    control=True,
+    layer_id=1,
+    interactive=True,
+    zindex=1
+).add_to(m.m1)  # Add to the first panel
+
+folium.raster_layers.ImageOverlay(
+    image=png_path2,
+    bounds=[[33.976608456383175, -6.866780573957727], [34.976608456383175, -5.866780573957727]],
+    name='Image 2',
+    show=True,
+    control=True,
+    layer_id=2,
+    interactive=True,
+    zindex=1
+).add_to(m.m2)  # Add to the second panel
+
+# Display the map in the Streamlit app
+folium_static(m)
+
+##################
 # here we do 3d representation of data with the same color
 """view = pdk.View(type="_GlobeView", controller=True, width=1000, height=700)
 st.pydeck_chart(pdk.Deck(
