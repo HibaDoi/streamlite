@@ -13,6 +13,7 @@ geemap = "*"
 localtileserver = {git = "https://github.com/banesullivan/localtileserver.git"}
 streamlit-folium = "*"
 rasterio = "*"
+leafmap = "*"
 
 [dev-packages]
 

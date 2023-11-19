@@ -14,6 +14,7 @@ import numpy as np
 from folium import plugins
 import rasterio
 from rasterio.warp import transform_bounds
+import leafmap.foliumap as leafmap
 
 
 #on ajoute notre fichier geoparquet
@@ -135,118 +136,124 @@ ddf['temp'+str(0)] = None
 for i in range(7):
     ddf['temp'+str(0)][i] = gdf.at[0, 'temp_j'+str(i)]
 # Print the empty DataFrame
-print(ddf)
+#print(ddf)
 chart_data = pd.DataFrame(ddf, columns=["temp0"])
 
 st.line_chart(chart_data)
 ##################
-
-
-# Load the TIFF files
-tif_path1 = 'temp0.tif'
-tif_path2 = 'temp1.tif'
-
-tif_img1 = Image.open(tif_path1)
-tif_img2 = Image.open(tif_path2)
-
-# Convert TIFF to numpy array
-tif_array1 = np.array(tif_img1)
-tif_array2 = np.array(tif_img2)
-
-# Convert numpy array to grayscale image
-tif_gray1 = Image.fromarray(tif_array1)
-tif_gray2 = Image.fromarray(tif_array2)
-
-# Save the grayscale images as PNG (or any other format that Folium supports)
-png_path1 = 'file1.png'
-png_path2 = 'file2.png'
-tif_gray1.save(png_path1)
-tif_gray2.save(png_path2)
-
-# Create a dual map
-m = plugins.DualMap(location=[33.976608456383175, -6.866780573957727], zoom_start=16)
-
-# Add the PNG image overlays to the map
-folium.raster_layers.ImageOverlay(
-    image=png_path1,
-    bounds=[[33.976608456383175, -6.866780573957727], [34.976608456383175, -5.866780573957727]],
-    name='Image 1',
-    show=True,
-    control=True,
-    layer_id=1,
-    interactive=True,
-    zindex=1
-).add_to(m.m1)  # Add to the first panel
-
-folium.raster_layers.ImageOverlay(
-    image=png_path2,
-    bounds=[[33.976608456383175, -6.866780573957727], [34.976608456383175, -5.866780573957727]],
-    name='Image 2',
-    show=True,
-    control=True,
-    layer_id=2,
-    interactive=True,
-    zindex=1
-).add_to(m.m2)  # Add to the second panel
-
-# Display the map in the Streamlit app
+m = leafmap.Map(height=600, center=[39.4948, -108.5492], zoom=12)
+url = 'https://essainh1119.s3.us-east-2.amazonaws.com/webmapping/temp0_COG.tif'
+url2 = 'https://essainh1119.s3.us-east-2.amazonaws.com/webmapping/temp1_COG.tif'
+m.split_map(url, url2)
+m
 folium_static(m)
+
+
+# # Load the TIFF files
+# tif_path1 = 'temp0.tif'
+# tif_path2 = 'temp1.tif'
+
+# tif_img1 = Image.open(tif_path1)
+# tif_img2 = Image.open(tif_path2)
+
+# # Convert TIFF to numpy array
+# tif_array1 = np.array(tif_img1)
+# tif_array2 = np.array(tif_img2)
+
+# # Convert numpy array to grayscale image
+# tif_gray1 = Image.fromarray(tif_array1)
+# tif_gray2 = Image.fromarray(tif_array2)
+
+# # Save the grayscale images as PNG (or any other format that Folium supports)
+# png_path1 = 'file1.png'
+# png_path2 = 'file2.png'
+# tif_gray1.save(png_path1)
+# tif_gray2.save(png_path2)
+
+# # Create a dual map
+# m = plugins.DualMap(location=[33.976608456383175, -6.866780573957727], zoom_start=16)
+
+# # Add the PNG image overlays to the map
+# folium.raster_layers.ImageOverlay(
+#     image=png_path1,
+#     bounds=[[33.976608456383175, -6.866780573957727], [34.976608456383175, -5.866780573957727]],
+#     name='Image 1',
+#     show=True,
+#     control=True,
+#     layer_id=1,
+#     interactive=True,
+#     zindex=1
+# ).add_to(m.m1)  # Add to the first panel
+
+# folium.raster_layers.ImageOverlay(
+#     image=png_path2,
+#     bounds=[[33.976608456383175, -6.866780573957727], [34.976608456383175, -5.866780573957727]],
+#     name='Image 2',
+#     show=True,
+#     control=True,
+#     layer_id=2,
+#     interactive=True,
+#     zindex=1
+# ).add_to(m.m2)  # Add to the second panel
+
+# # Display the map in the Streamlit app
+# folium_static(m)"""
 
 ##################
 # here we do 3d representation of data with the same color
-"""view = pdk.View(type="_GlobeView", controller=True, width=1000, height=700)
-st.pydeck_chart(pdk.Deck(
-    views=[view],
-    map_style=None,
-    initial_view_state=pdk.ViewState(
-        latitude=32,
-        longitude=-5,
-        zoom=5,
-        pitch=0,
-    ),
-    parameters={"cull": True},
-    #Ici on peut ajouter une infinitée de couche et ler symbology 
-    layers=[
-    pdk.Layer(
-        "ColumnLayer",
-        id="temp_j3",
-        data=gdf,
-        get_elevation="temp_j3",
-        get_position=["longitude", "latitude"],
-        elevation_scale=1000,
-        pickable=True,
-        auto_highlight=True,
-        radius=2000,
-        get_fill_color='[255, 165, 0]',
-        ),
+# view = pdk.View(type="_GlobeView", controller=True, width=1000, height=700)
+# st.pydeck_chart(pdk.Deck(
+#     views=[view],
+#     map_style=None,
+#     initial_view_state=pdk.ViewState(
+#         latitude=32,
+#         longitude=-5,
+#         zoom=5,
+#         pitch=0,
+#     ),
+#     parameters={"cull": True},
+#     #Ici on peut ajouter une infinitée de couche et ler symbology 
+#     layers=[
+#     pdk.Layer(
+#         "ColumnLayer",
+#         id="temp_j3",
+#         data=gdf,
+#         get_elevation="temp_j3",
+#         get_position=["longitude", "latitude"],
+#         elevation_scale=1000,
+#         pickable=True,
+#         auto_highlight=True,
+#         radius=2000,
+#         get_fill_color='[255, 165, 0]',
+#         ),
         
-    ],
-))"""
+#     ],
+# ))
 
 # i discovred that grid just count the number if point in one place in is nit very useful in our case 
-"""
-st.pydeck_chart(pdk.Deck(
-    map_style=None,
-    initial_view_state=pdk.ViewState(
-        latitude=32,
-        longitude=-5,
-        zoom=11,
-        pitch=45,
-        bearing=0,
+
+# st.pydeck_chart(pdk.Deck(
+#     map_style=None,
+#     initial_view_state=pdk.ViewState(
+#         latitude=32,
+#         longitude=-5,
+#         zoom=11,
+#         pitch=45,
+#         bearing=0,
         
 
-    ),
-    #Ici on peut ajouter une infinitée de couche et ler symbology 
-    layers=[
-       pdk.Layer(
-    "GridLayer",
-    gdf,
-    pickable=True,
-    extruded=True,
-    cell_size=20000,
-    elevation_scale=5,
-    get_position=["longitude", "latitude"],
-)
+#     ),
+#     #Ici on peut ajouter une infinitée de couche et ler symbology 
+#     layers=[
+#        pdk.Layer(
+#     "GridLayer",
+#     gdf,
+#     pickable=True,
+#     extruded=True,
+#     cell_size=20000,
+#     elevation_scale=5,
+#     get_position=["longitude", "latitude"],
+# )
         
-    ],
-))"""
+#     ],
+# ))
