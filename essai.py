@@ -88,7 +88,9 @@ def color(value):
 
 
 gdf['fill_color'] = gdf[str(att(option))+str(day)].apply(color)
+############
 
+##############
 # Create a new column 'label' containing the labels for each point
 
 
@@ -121,24 +123,60 @@ st.pydeck_chart(pdk.Deck(
            
 
         ),
-    ],
+    ], 
+    tooltip = {
+   "html": "<b>Elevation Value:</b> {OBJECTID}",
+   "style": {
+        "backgroundColor": "steelblue",
+        "color": "white"
+   }
+}
 ))
-#chart
-###################
+
+#fromm mappp
+####################*
 # Create an empty DataFrame
 ddf = pd.DataFrame()
 
 # Add columns to the DataFrame
-ddf['jours'] = [0,1 ,2,3,4,5,6] # You can replace None with any default value you want
+ddf['jours'] = [0,1,2,3,4,5,6] # You can replace None with any default value you want
 
 # Add more columns as needed
-ddf['temp'+str(0)] = None
-for i in range(7):
-    ddf['temp'+str(0)][i] = gdf.at[0, 'temp_j'+str(i)]
-# Print the empty DataFrame
-#print(ddf)
-chart_data = pd.DataFrame(ddf, columns=["temp0"])
 
+for nh in ["temp_j","preci_","humd_"]:
+        ddf[nh] = None
+for i in range(7):
+    for nh in ["temp_j","preci_","humd_"]:
+        ddf[nh][i] = gdf.at[0, nh+str(i)]
+# Print the empty DataFrame
+print(ddf)
+chart_data = pd.DataFrame(ddf, columns=[str(att(option))])
+print(chart_data)
+st.line_chart(chart_data)
+##############
+
+#chart
+attribute_columns = [col for col in gdf["OBJECTID"] ]
+selected_column = st.selectbox("Select Attribute Column:", attribute_columns)
+###################
+
+# Create an empty DataFrame
+ddf = pd.DataFrame()
+
+# Add columns to the DataFrame
+ddf['jours'] = [0,1,2,3,4,5,6] # You can replace None with any default value you want
+
+# Add more columns as needed
+
+for nh in ["temp_j","preci_","humd_"]:
+        ddf[nh] = None
+for i in range(7):
+    for nh in ["temp_j","preci_","humd_"]:
+        ddf[nh][i] = gdf.at[selected_column, nh+str(i)]
+# Print the empty DataFrame
+print(ddf)
+chart_data = pd.DataFrame(ddf, columns=[str(att(option))])
+print(chart_data)
 st.line_chart(chart_data)
 ##################
 m = leafmap.Map(height=600, center=[39.4948, -108.5492], zoom=12)
