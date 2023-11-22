@@ -60,10 +60,29 @@ for attribute in temp_attributes + humd_attributes + preci_attributes:
         ax.set_title(f'{option}   on Day {day}', fontdict={'fontsize': '15', 'fontweight' : '3'})
 
         # Save the figure as a PNG
-        #fig.savefig(f'{attribute}_map.png')
+        fig.savefig(f'{attribute}_map.png')
+        st.image(f'{attribute}_map.png')
+        ax.set_title(f'{option}   on Day {day}', fontdict={'fontsize': '15', 'fontweight' : '3', 'color': 'white'})
         st.plotly_chart(fig)
 
+
 ###################
+
+def rr(h):
+    a=h[:-1]
+    b=h[-1]
+    return a,b
+t=""
+def att(value):
+    if value in "temp_j" :
+        t='temperature'
+    if value in "humd_":
+        t='humidite'
+    if value in "preci_":
+        t='precipitation'
+    else:
+        t="rr"
+    return t
 
 for attribute in temp_attributes + humd_attributes + preci_attributes:
     # Create a new column for the classification
@@ -73,6 +92,10 @@ for attribute in temp_attributes + humd_attributes + preci_attributes:
         bins = humd_bins
     else:  # attribute in preci_attributes
         bins = preci_bins
+    uu=rr(attribute)[0]
+    st.write(uu)
+    nh=att(uu)
+    st.write(nh)
 
     gdf['class'] = pd.cut(gdf[attribute], bins, labels=False, include_lowest=True)
 
@@ -84,7 +107,7 @@ for attribute in temp_attributes + humd_attributes + preci_attributes:
 
     # Remove x and y axis information
     ax.axis('off')
-    ax.set_title(f'{attribute}', fontdict={'fontsize': '15', 'fontweight': '3', 'color': 'white'})
+    ax.set_title(f'{nh}', fontdict={'fontsize': '15', 'fontweight': '3'})
 
     # Save the figure as a PNG
     fig.savefig(f'{attribute}_map.png')
