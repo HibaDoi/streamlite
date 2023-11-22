@@ -86,14 +86,16 @@ def color(value):
 
 
 gdf['fill_color'] = gdf[str(att(option))+str(day)].apply(color)
-
+attribute_data1= [(nom_commun, id,long,lat) for nom_commun, id,long,lat in zip(gdf["Nom_Commun"], gdf["OBJECTID"],gdf['longitude'],gdf['latitude'])]
+selected_column1 = st.selectbox("Select Attribute Column:", attribute_data1)
+st.write(selected_column1[2])
 # la map
 st.pydeck_chart(pdk.Deck(
     
     initial_view_state=pdk.ViewState(
-        latitude=32,
-        longitude=-5,
-        zoom=8,
+        latitude=(selected_column1[3]),
+        longitude=(selected_column1[2]),
+        zoom=10,
         pitch=0,
     ),
     layers=[
@@ -137,6 +139,7 @@ map_style=pdk.map_styles.DARK,
 
 
 ))
+
 ############""
 deck=pdk.Deck(
     
