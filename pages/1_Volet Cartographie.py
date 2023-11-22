@@ -86,15 +86,51 @@ def color(value):
 
 
 gdf['fill_color'] = gdf[str(att(option))+str(day)].apply(color)
-attribute_data1= [(nom_commun, id,long,lat) for nom_commun, id,long,lat in zip(gdf["Nom_Commun"], gdf["OBJECTID"],gdf['longitude'],gdf['latitude'])]
+attribute_data1= [(nom_commun) for nom_commun in gdf["Nom_Commun"]]
+
+
+
+
+
+
+
 selected_column1 = st.selectbox("Select Attribute Column:", attribute_data1)
-st.write(selected_column1[2])
+st.write(selected_column1)
+
+if selected_column1 in gdf["Nom_Commun"].values:
+    # Trouvez l'index de la valeur dans la colonne A
+    index_de_la_valeur = gdf.index[gdf["Nom_Commun"] == selected_column1].tolist()
+    index_de_la_valeur=index_de_la_valeur[0]
+st.write(index_de_la_valeur)
+###################
+
+# Create an empty DataFrame
+ddf = pd.DataFrame()
+
+# Add columns to the DataFrame
+ddf['jours'] = [0,1,2,3,4,5,6] # You can replace None with any default value you want
+
+# Add more columns as needed
+
+for nh in ["temp_j","preci_","humd_"]:
+        ddf[nh] = None
+for i in range(7):
+    for nh in ["temp_j","preci_","humd_"]:
+        ddf[nh][i] = gdf.at[index_de_la_valeur, nh+str(i)]
+# Print the empty DataFrame
+
+chart_data = pd.DataFrame(ddf, columns=[str(att(option))])
+#old way
+st.line_chart(chart_data)
+
+#essai nizar
+#################
 # la map
 st.pydeck_chart(pdk.Deck(
     
     initial_view_state=pdk.ViewState(
-        latitude=(selected_column1[3]),
-        longitude=(selected_column1[2]),
+        latitude=(gdf["latitude"][index_de_la_valeur]),
+        longitude=(gdf["longitude"][index_de_la_valeur]),
         zoom=10,
         pitch=0,
     ),
