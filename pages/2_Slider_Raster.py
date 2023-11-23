@@ -76,12 +76,10 @@ t=""
 def att(value):
     if value in "temp_j" :
         t='temperature'
-    if value in "humd_":
+    elif value in "humd_":
         t='humidite'
-    if value in "preci_":
+    elif value in "preci_":
         t='precipitation'
-    else:
-        t="rr"
     return t
 
 for attribute in temp_attributes + humd_attributes + preci_attributes:
@@ -93,9 +91,10 @@ for attribute in temp_attributes + humd_attributes + preci_attributes:
     else:  # attribute in preci_attributes
         bins = preci_bins
     uu=rr(attribute)[0]
-    st.write(uu)
+    oo=rr(attribute)[1]
+   
     nh=att(uu)
-    st.write(nh)
+   
 
     gdf['class'] = pd.cut(gdf[attribute], bins, labels=False, include_lowest=True)
 
@@ -107,7 +106,7 @@ for attribute in temp_attributes + humd_attributes + preci_attributes:
 
     # Remove x and y axis information
     ax.axis('off')
-    ax.set_title(f'{nh}', fontdict={'fontsize': '15', 'fontweight': '3'})
+    ax.set_title(f'{nh} jour {oo}', fontdict={'fontsize': '15', 'fontweight': '3'})
 
     # Save the figure as a PNG
     fig.savefig(f'{attribute}_map.png')

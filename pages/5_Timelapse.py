@@ -8,13 +8,13 @@ yey=st.selectbox(
 
 
 if yey=='temperature':
-    gif_url = "temp.gif"
+    gif_url = "temp (1).gif"
     st.image(gif_url, caption='Your GIF', use_column_width=True)
 elif yey=='humidite':
-    gif_url = "humd.gif"
+    gif_url = "humd (1).gif"
     st.image(gif_url, caption='Your GIF', use_column_width=True)
 else:   
-    gif_url = "preci.gif"
+    gif_url = "preci (1).gif"
     st.image(gif_url, caption='Your GIF', use_column_width=True)
 # Display a GIF from a URL
 

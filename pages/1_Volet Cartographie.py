@@ -16,7 +16,7 @@ import rasterio
 from rasterio.warp import transform_bounds
 import leafmap.foliumap as leafmap
 import json
-
+import ipywidgets
 st.set_page_config(
     page_title="Volet Cartographie",
     page_icon="🗺️",
@@ -176,6 +176,7 @@ map_style=pdk.map_styles.DARK,
 
 ))
 
+
 ############""
 deck=pdk.Deck(
     
@@ -208,8 +209,8 @@ deck=pdk.Deck(
         ),
     ], 
     tooltip = {
-   "html": "<b>Elevation Value:</b> {Nom_Commun} /n{OBJECTID} ",
-   "style": {
+    "html": "<b>Elevation Value:</b> {Nom_Commun} /n{OBJECTID} ",
+     "style": {
         "backgroundColor": "steelblue",
         "color": "white"
    }
@@ -219,24 +220,21 @@ deck=pdk.Deck(
 map_provider ='Google_Maps',
 map_style= 'satellite'
 )
-import ipywidgets
+
 text = ipywidgets.HTML('Click near Berlin in the visualization to draw an isochrone')
 def update_isochrone(widget_instance, payload):
-    global deck
-    global gdf
-    global text
+    text.value = str(payload)
 
-    try:
-        hiba = payload['data']['index']
-        
-        text.value = '%s points within twenty minutes of clicked point (%s sec)' % (hiba )
-        deck.update()
-    except Exception as e:
-        text.value = str(e)
-
-
+def handler(change):
+    global selected_data
+    selected_data = change
+    
+# you can select which traitlets keys it observes
+deck.deck_widget.observe(handler, ['selected_data'])
 deck.deck_widget.on_click(update_isochrone)
-
+st.write(deck.deck_widget.observe(handler, ['selected_data']))
+st.write(text)
+st.pydeck_chart(deck)
 
 ###############
 # #for static point
