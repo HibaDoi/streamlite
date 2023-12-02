@@ -11,7 +11,7 @@ import streamlit as st
 #choisir l'attribut
 option = st.sidebar.selectbox(
     'How would you like to choose?',
-    ('temperature', 'humidite', 'precipitation'))
+    ('temperature', 'humidite', 'pression','vent'))
 # folium_static(m)
 day1 = st.sidebar.slider('witch day', 0, 6, 2,key="a")
 day2 = st.sidebar.slider('witch day', 0, 6, 2,key="b")

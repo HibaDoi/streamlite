@@ -126,16 +126,59 @@ st.line_chart(chart_data)
 #essai nizar
 #################
 # la map
-st.pydeck_chart(pdk.Deck(
+# st.pydeck_chart(pdk.Deck(
     
-    initial_view_state=pdk.ViewState(
-        latitude=(gdf["latitude"][index_de_la_valeur]),
-        longitude=(gdf["longitude"][index_de_la_valeur]),
-        zoom=10,
-        pitch=0,
-    ),
-    layers=[
-        pdk.Layer(
+#     initial_view_state=pdk.ViewState(
+#         latitude=(gdf["latitude"][index_de_la_valeur]),
+#         longitude=(gdf["longitude"][index_de_la_valeur]),
+#         zoom=10,
+#         pitch=0,
+#     ),
+#     layers=[
+#         pdk.Layer(
+#             'ScatterplotLayer',
+#             data=gdf,
+#             pickable=True,
+#             opacity=0.8,
+#             stroked=True,
+#             filled=True,
+#             radius_scale=10,
+#             radius_min_pixels=1,
+#             radius_max_pixels=100,
+#             line_width_min_pixels=1,
+#             get_position='[longitude, latitude]',
+#             get_radius=200,
+#             get_fill_color='fill_color',  # Use the new 'fill_color' column
+#             auto_highlight=True,
+           
+            
+           
+
+#         ),
+#     ], 
+#     tooltip = {
+#    "html": "<b>Nom commune:</b> "         "  {Nom_Commun} \n {OBJECTID} ",
+#    "style": {
+#         "backgroundColor": "steelblue",
+#         "color": "white"
+#    },
+   
+
+# # map_provider ='Google_Maps',
+# # api_keys="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgZZK8umUqJn8d5CoIZqWPJ_qtMfqD9q0&callback=initMap&region=MA",
+# # map_provider='google_maps',
+# # map_style= None,
+
+# }
+# ,map_provider="mapbox",
+# map_style=pdk.map_styles.DARK,
+
+
+# ))
+
+
+############""
+isochrone_boundaries = pdk.Layer(
             'ScatterplotLayer',
             data=gdf,
             pickable=True,
@@ -148,93 +191,34 @@ st.pydeck_chart(pdk.Deck(
             line_width_min_pixels=1,
             get_position='[longitude, latitude]',
             get_radius=200,
-            get_fill_color='fill_color',  # Use the new 'fill_color' column
+            get_fill_color='[255,6,2]',  # Use the new 'fill_color' column
             auto_highlight=True,
-           
-            
-           
-
         ),
-    ], 
-    tooltip = {
-   "html": "<b>Nom commune:</b> "         "  {Nom_Commun} \n {OBJECTID} ",
-   "style": {
-        "backgroundColor": "steelblue",
-        "color": "white"
-   },
-   
-
-# map_provider ='Google_Maps',
-# api_keys="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgZZK8umUqJn8d5CoIZqWPJ_qtMfqD9q0&callback=initMap&region=MA",
-# map_provider='google_maps',
-# map_style= None,
-
-}
-,map_provider="mapbox",
-map_style=pdk.map_styles.DARK,
-
-
-))
-
-
-############""
 deck=pdk.Deck(
-    
+    isochrone_boundaries,
     initial_view_state=pdk.ViewState(
         latitude=32,
         longitude=-5,
         zoom=8,
         pitch=0,
     ),
-    layers=[
-        pdk.Layer(
-            'ScatterplotLayer',
-            data=gdf,
-            pickable=True,
-            opacity=0.8,
-            stroked=True,
-            filled=True,
-            radius_scale=10,
-            radius_min_pixels=1,
-            radius_max_pixels=100,
-            line_width_min_pixels=1,
-            get_position='[longitude, latitude]',
-            get_radius=200,
-            get_fill_color='fill_color',  # Use the new 'fill_color' column
-            auto_highlight=True,
-           
-            
-           
-
-        ),
-    ], 
-    tooltip = {
-    "html": "<b>Elevation Value:</b> {Nom_Commun} /n{OBJECTID} ",
-     "style": {
-        "backgroundColor": "steelblue",
-        "color": "white"
-   }
-   
-}
-, 
-map_provider ='Google_Maps',
-map_style= 'satellite'
 )
 
-text = ipywidgets.HTML('Click near Berlin in the visualization to draw an isochrone')
-def update_isochrone(widget_instance, payload):
-    text.value = str(payload)
-
-def handler(change):
-    global selected_data
-    selected_data = change
+text = ipywidgets.HTML('heyyyyyyyy')
+# def update_isochrone(widget_instance, payload):
+#     text.value = "hello Word"
+#     print("frfrfr")
+def update_isochrone():
+    text.value = "hello Word"
+    
+    print('trtrtr')
     
 # you can select which traitlets keys it observes
-deck.deck_widget.observe(handler, ['selected_data'])
+# deck.deck_widget.observe(handler, ['selected_data'])
 deck.deck_widget.on_click(update_isochrone)
-st.write(deck.deck_widget.observe(handler, ['selected_data']))
-st.write(text)
 st.pydeck_chart(deck)
+st.write(text)
+
 
 ###############
 # #for static point

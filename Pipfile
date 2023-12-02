@@ -18,6 +18,8 @@ vega-datasets = "*"
 fastparquet = "*"
 mplleaflet = "*"
 imageio = "*"
+lonboard = "*"
+streamlit-leaflet = "*"
 
 [dev-packages]
 
