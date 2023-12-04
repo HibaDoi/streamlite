@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "f86a5ca8831d08a7418c354b39485e7f03502a4df2bc654ad3f8b0d87018ee9e"
+            "sha256": "11dc177d930273c4cd50f7c50a4506dad7b632414c8110816fa84c54d78f7834"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -708,9 +708,9 @@
         },
         "gdal": {
             "hashes": [
-                "sha256:9893da5532a6c5dadc1fc3bc402ae29d161b7cf190d778f129da84d0e50baa29"
+                "sha256:f4f4b0bb34073b164c5a05a1b0eb44af47349e5606eb7b75244c2167ac462f36"
             ],
-            "path": "C:/Users/hp/Downloads/GDAL-3.4.3-cp310-cp310-win_amd64.whl",
+            "index": "pypi",
             "version": "==3.4.3"
         },
         "gdown": {
