@@ -2,12 +2,7 @@ import streamlit as st
 import pandas as pd 
 import pydeck as pdk
 import geopandas as gpd
-import geemap.foliumap as geemap
-from localtileserver.widgets import get_folium_tile_layer
 import streamlit as st
-from streamlit_folium import folium_static
-from rasterio.warp import transform_bounds
-from lonboard.colormap import apply_continuous_cmap
 import plotly.graph_objects as go
 st.set_page_config(
     page_title="Cartographie réel",
