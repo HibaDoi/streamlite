@@ -21,6 +21,7 @@ imageio = "*"
 lonboard = "*"
 streamlit-leaflet = "*"
 solara = "*"
+pexpect = "*"
 
 [dev-packages]
 
