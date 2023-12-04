@@ -708,6 +708,7 @@
         },
         "gdal": {
             "hashes": [
+                "sha256:9893da5532a6c5dadc1fc3bc402ae29d161b7cf190d778f129da84d0e50baa29",
                 "sha256:f4f4b0bb34073b164c5a05a1b0eb44af47349e5606eb7b75244c2167ac462f36"
             ],
             "index": "pypi",
