@@ -34,7 +34,7 @@ for idx, row in df.iterrows():
     # Add a marker with the popup to the map
     folium.Marker([row['latitude'], row['longitude']], popup=popup).add_to(m)
 # Display the map
-m
+
 from streamlit_folium import folium_static
 
 # Display the map

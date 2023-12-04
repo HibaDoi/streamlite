@@ -33,8 +33,8 @@ st.set_page_config(
     page_icon="🗺️",
 )
 
-p=st.selectbox(    'Quelle type de symbologie vous aimez?',
-    ('Variable couleur', 'Symbole Proportionnel',"3D","agg"))
+p=st.sidebar.selectbox(    'Quelle type de symbologie vous aimez?',
+    ('Variable couleur', 'Symbole Proportionnel',"3D","Grid"))
 #on ajoute notre fichier geoparquet
 datafile ='waaaa.geoparquet'
 #on lit notre fichier geoparquet
@@ -90,7 +90,7 @@ def color(value):
 
 gdf['fill_color'] = gdf[str(att(option))+str(day)].apply(color)
 attribute_data1= [(nom_commun) for nom_commun in gdf["Nom_Commun"]]
-col1, col2 = st.columns(2)
+col1, col2 = st.columns([0.3, 0.7])
 selected_column1 = col1.selectbox("Select Attribute Column:", attribute_data1)
 st.write(selected_column1)
 
@@ -144,7 +144,7 @@ layout = go.Layout(
 fig = go.Figure(data=data, layout=layout)
 
 # Show the plot
-col2.plotly_chart(fig)
+col2.plotly_chart(fig,use_container_width=True)
 ##################
 if p=='Variable couleur':
         st.pydeck_chart(pdk.Deck(
@@ -209,12 +209,12 @@ elif p=='Symbole Proportionnel':
                     filled=True,
                     radius_scale=10,
                     radius_min_pixels=1,
-                radius_max_pixels=100,
-                line_width_min_pixels=1,
-                get_position='[longitude, latitude]',
-                get_radius=2000*(str(att(option))+str(day)),
-                get_fill_color='[255,0,0]',  # Use the new 'fill_color' column
-                auto_highlight=True,
+                    radius_max_pixels=500,
+                    line_width_min_pixels=1,
+                    get_position='[longitude, latitude]',
+                    get_radius=str(att(option))+str(day),
+                    get_fill_color='[255,0,0]',  # Use the new 'fill_color' column
+                    auto_highlight=True,
  
             ),
         ], 
@@ -233,7 +233,7 @@ elif p=='3D':
     view = pdk.View(type="_GlobeView", controller=True, width=1000, height=700)
     st.pydeck_chart(pdk.Deck(
         views=[view],
-        map_style=None,
+        
         initial_view_state=pdk.ViewState(
             latitude=32,
             longitude=-5,
@@ -257,10 +257,12 @@ elif p=='3D':
             ),
             
         ],
+        map_provider="mapbox",
+        map_style=y,
     ))
-elif p=="agg":
+elif p=="Grid":
     st.pydeck_chart(pdk.Deck(
-    map_style=None,
+    
     initial_view_state=pdk.ViewState(
         latitude=32,
         longitude=-5,
@@ -283,4 +285,6 @@ elif p=="agg":
 )
         
     ],
+     map_provider="mapbox",
+        map_style=y,
 ))

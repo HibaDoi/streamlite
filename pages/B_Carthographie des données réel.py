@@ -71,7 +71,7 @@ def att(value):
     if value== 'temperature':
         d="temp_"
     elif value== 'humidite':
-        d="humdi_"
+        d="hmudi_"
     elif value== 'vent':
         d="wind_"
     elif value== 'pression':
@@ -112,7 +112,7 @@ def color(value):
 gdf['fill_color'] = gdf[str(att(option))+str(day)].apply(color)
 attribute_data1= [(nom_commun) for nom_commun in gdf["city_name"]]
 
-col1, col2 = st.columns(2)
+col1, col2 = st.columns([0.3, 0.7])
 selected_column1 = col1.selectbox("Select Attribute Column:", attribute_data1)
 st.write(selected_column1)
 
@@ -131,10 +131,10 @@ ddf['jours'] = [0,1,2,3,4] # You can replace None with any default value you wan
 
 # Add more columns as needed
 
-for nh in ["temp_","pr_","wind_","humdi_"]:
+for nh in ["temp_","pr_","wind_","hmudi_"]:
         ddf[nh] = None
 for i in range(5):
-    for nh in ["temp_","pr_","wind_","humdi_"]:
+    for nh in ["temp_","pr_","wind_","hmudi_"]:
         ddf[nh][i] = gdf.at[index_de_la_valeur, nh+str(i)]
 # Print the empty DataFrame
 
@@ -166,7 +166,7 @@ layout = go.Layout(
 fig = go.Figure(data=data, layout=layout)
 
 # Show the plot
-col2.plotly_chart(fig)
+col2.plotly_chart(fig,use_container_width=True)
 ##################
 if p=='Variable couleur':
         st.pydeck_chart(pdk.Deck(
@@ -200,7 +200,7 @@ if p=='Variable couleur':
                 ),
             ], 
             tooltip = {
-        "html": "<b>Nom commune:</b> "         "  {city_name} \n {OBJECTID} ",
+        "html": "<b>Nom commune:</b> "         "  {city_name} \n {cl_0} ",
         "style": {
                 "backgroundColor": "steelblue",
                 "color": "white"

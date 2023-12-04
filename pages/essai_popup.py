@@ -26,6 +26,5 @@ points_gjson.add_to(m)
 # Alternative syntax for adding points to the map instance
 #m.add_child(points_gjson)
 
-#Show map
-m
+
 folium_static(m)
