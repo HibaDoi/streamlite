@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "11dc177d930273c4cd50f7c50a4506dad7b632414c8110816fa84c54d78f7834"
+            "sha256": "65ff0197ec7ba2887f0e48d55b4181ac1da809a4691fdd0ab897f8e867d45d73"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -705,14 +705,6 @@
             ],
             "markers": "python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==0.18.3"
-        },
-        "gdal": {
-            "hashes": [
-                "sha256:9893da5532a6c5dadc1fc3bc402ae29d161b7cf190d778f129da84d0e50baa29",
-                "sha256:f4f4b0bb34073b164c5a05a1b0eb44af47349e5606eb7b75244c2167ac462f36"
-            ],
-            "index": "pypi",
-            "version": "==3.4.3"
         },
         "gdown": {
             "hashes": [
@@ -1621,7 +1613,7 @@
                 "sha256:fb8a697f11b0f5994550555fcfe3e69799e5b060c8ecf9e2f75c69302cc35c0d",
                 "sha256:ff18b8d1a784b810df0b0fff3bcb50ab941c3b8e2c8de5726f9c71c601c611aa"
             ],
-            "index": "pypi",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4, 3.5'",
             "version": "==5.9.6"
         },
         "psygnal": {
