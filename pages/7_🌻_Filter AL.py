@@ -49,9 +49,9 @@ def cho(value,cool):
     return slider_range
 def bm(genre):
     if genre=="LIGHT":
-        y=pdk.map_styles.LIGHT
+        y=pdk.map_styles.CARTO_LIGHT_NO_LABELS
     elif genre=="DARK":
-        y=pdk.map_styles.DARK
+        y=pdk.map_styles.CARTO_DARK_NO_LABELS
     elif genre=="SATELLITE":
         y=pdk.map_styles.SATELLITE
     elif genre=="ROAD":
