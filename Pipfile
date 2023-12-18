@@ -22,8 +22,6 @@ lonboard = "*"
 streamlit-leaflet = "*"
 solara = "*"
 pexpect = "*"
-gdal = "==3.4.3"
-psutil = "*"
 
 [dev-packages]
 
